@@ -8,7 +8,7 @@ One time I need to add 'Has all Product' requirement rule to discount and have b
 This plugin should make this work simpler, because now you can edit discount requirement products in grid.
 
 ### Here is plugin interface.
-![alt text](https://github.com/iAlexeyProkhorov/iAlexeyProkhorov/blob/main/Content/Has%20One%20Product/420.png)
+![alt text](https://github.com/iAlexeyProkhorov/iAlexeyProkhorov/blob/main/Content/Has%20All%20Products/common-configuration.png?raw=true)
 
 It looks like standrd nopCommerce admin table with inline edit mode 🙂.
 
