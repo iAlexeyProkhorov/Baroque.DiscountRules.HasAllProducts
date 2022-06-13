@@ -1,0 +1,44 @@
+﻿<Language Name="English">
+  <!--CONFIGURATION-->
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRule.HasAllProducts.Configuration.Description">
+    <Value>This requirement rule allows to set discounts for customers who has the certain product in shopping cart.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRule.HasAllProducts.Configuration.Information">
+    <Value>You must to save this requirement rule before start editing.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.Picture">
+    <Value>Picture</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.Sku">
+    <Value>Sku</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.Name">
+    <Value>Name</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.Published">
+    <Value>Published</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.MinQuantity">
+    <Value>Minimum quantity</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.MaxQuantity">
+    <Value>Maximum quantity</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Fields.Products.AddNew">
+    <Value>Add product</Value>
+  </LocaleResource>
+  <!--ADD PRODUCTS-->
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Fields.Products.AddProducts">
+    <Value>Add products</Value>
+  </LocaleResource>
+  <!--VALIDATION-->
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.RequirementProduct.MinQuantity.MustBeGreaterThanZero">
+    <Value>Minimal product quantity must be greater than zero.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.RequirementProduct.MaxQuantity.MustBeGreaterThanZero">
+    <Value>Maximum product quantity must be greater than zero.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Nop.Plugin.Baroque.DiscountRules.HasAllProducts.RequirementProduct.MaxQuantity.MustBeGreaterMinQuantity">
+    <Value>Maximum value must be greater than minimum value.</Value>
+  </LocaleResource>
+</Language>

@@ -1,0 +1,163 @@
+﻿@{
+    Layout = "";
+}
+@model ConfigurationModel
+@using Microsoft.AspNetCore.Routing
+
+@if (Model.RequirementId > 0)
+{
+    //var hidePluginConfigurationAttributeName = $"Baroque.DiscountRules.PurchaseOneProduct.{Model.RequirementId}";
+    //var hidePluginConfiguration = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hidePluginConfigurationAttributeName);
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @await Html.PartialAsync("Table", new DataTablesModel()
+       {
+           Name = $"requirement-products-grid-{Model.RequirementId}",
+           Paging = false,
+           UrlRead = new DataUrl("List", "DiscountRulesHasAllProducts", new RouteValueDictionary() { { "area", "Admin" }, { nameof(ConfigurationModel.RequirementId), Model.RequirementId } }),
+           UrlUpdate = new DataUrl("UpdateProduct", "DiscountRulesHasAllProducts", new RouteValueDictionary() { { "area", "Admin" }, { nameof(ConfigurationModel.RequirementId), Model.RequirementId } }),
+           UrlDelete = new DataUrl("DeleteProduct", "DiscountRulesHasAllProducts", new RouteValueDictionary() { { "area", "Admin" }, { nameof(ConfigurationModel.RequirementId), Model.RequirementId } }),
+           ColumnCollection = new List<ColumnProperty>()
+           {
+               new ColumnProperty(nameof(ConfigurationModel.RequirementProductModel.PictureUrl))
+               {
+                   Title = T("Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.Picture").Text,
+                   Render = new RenderPicture(),
+                   Width = "150"
+               },
+               new ColumnProperty(nameof(ConfigurationModel.RequirementProductModel.Sku))
+               {
+                   Title = T("Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.Sku").Text,
+                   Width = "100"
+               },
+               new ColumnProperty(nameof(ConfigurationModel.RequirementProductModel.Name))
+               {
+                   Title = T("Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.Name").Text,
+                   Width = "200"
+               },
+               new ColumnProperty(nameof(ConfigurationModel.RequirementProductModel.Published))
+               {
+                   Title = T("Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.Published").Text,
+                   Render = new RenderBoolean(),
+                   Width = "50"
+               },
+               new ColumnProperty(nameof(ConfigurationModel.RequirementProductModel.MinQuantity))
+               {
+                   Editable = true,
+                   EditType = EditType.Number,
+                   Title = T("Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.MinQuantity").Text,
+                   Width = "50"
+               },
+               new ColumnProperty(nameof(ConfigurationModel.RequirementProductModel.MaxQuantity))
+               {
+                   Editable = true,
+                   EditType = EditType.Number,
+                   Title = T("Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Configuration.MaxQuantity").Text,
+                   Width = "50"
+               },
+               new ColumnProperty(nameof(ConfigurationModel.RequirementProductModel.Id))
+               {
+                   Title = T("Admin.Common.Edit").Text,
+                   Width = "50",
+                   ClassName = NopColumnClassDefaults.Button,
+                   Render = new RenderButtonsInlineEdit()
+               },
+               new ColumnProperty(nameof(ConfigurationModel.RequirementProductModel.Id))
+               {
+                   Title = T("Admin.Common.Delete").Text,
+                   Width = "50",
+                   ClassName = NopColumnClassDefaults.Button,
+                   Render = new RenderButtonRemove(T("Admin.Common.Delete").Text)
+               }
+           },
+
+       })
+        </div>
+        <div class="panel-footer">
+            <input type="submit"
+                   id="btnAddNewDiscountRequirementProduct@(Model.RequirementId)"
+                   value="@T("Nop.Plugin.Baroque.DiscountRules.HasAllProducts.Fields.Products.AddNew")"
+                   onclick="javascript:OpenWindow('@Url.Action("AddProductPopup", "DiscountRulesHasAllProducts", new { btnId = $"btnRefreshDiscountRequirementProducts{Model.RequirementId}", requirementId = Model.RequirementId })', 800, 850, true); return false;"
+                   class="btn btn-info" />
+            <input type="submit" id="btnRefreshDiscountRequirementProducts@(Model.RequirementId)" style="display: none" />
+        </div>
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <div class="col-md-3 requirement-label-col">
+        </div>
+        <div class="col-md-9 requirement-data-col">
+            <div class="requirement-data-input" style="padding:10px;">
+                @T("Nop.Plugin.Baroque.DiscountRule.HasAllProducts.Configuration.Description")
+            </div>
+            <div class="requirement-data-input">
+                <div class="ui-state-highlight ui-corner-all" style="margin-top: 0px; padding: 10px;">
+                    <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                    <i>@T("Nop.Plugin.Baroque.DiscountRule.HasAllProducts.Configuration.Information")</i>
+                </div>
+            </div>
+            <div class="requirement-data-buttons">
+                <input type="button" id="saveHasAllProductsrequirement@(Model.RequirementId)" class="btn btn-primary" value="@T("Admin.Common.Save")" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-9 col-md-offset-3 requirement-messages-col">
+            <div class="requirement-product-names text-blue" id="discountrequirement-product-names@(Model.RequirementId)"></div>
+            <div id="pnl-save-requirement-result@(Model.RequirementId)" class="text-green margin-t-5" style="display: none;">
+                @T("Admin.Promotions.Discounts.Requirements.Saved")
+            </div>
+            <div id="discountrequirement-products-check-progress@(Model.RequirementId)" class="please-wait pull-right" style="display: none;">
+                @T("Common.Wait...")
+            </div>
+        </div>
+    </div>
+    <nop-alert asp-alert-id="saveHasAllProductsrequirementAlert" asp-alert-message="@T("Admin.Promotions.Discounts.Requirements.FailedToSave")" />
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#btnRefreshDiscountRequirementProducts@(Model.RequirementId)').click(function() {
+            //refresh product table
+            updateTable('@($"#requirement-products-grid-{Model.RequirementId}")');
+
+            //return false to don't reload a page
+            return false;
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#saveHasAllProductsrequirement@(Model.RequirementId)').click(function () {
+            var discountId = @Model.DiscountId;
+            var requirementId = @Model.RequirementId;
+
+            var postData = {
+                discountId: discountId,
+                discountRequirementId: requirementId,
+            };
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("Configure", "DiscountRulesHasAllProducts"))",
+                data: postData,
+                success: function (data, textStatus, jqXHR) {
+                    $('#pnl-save-requirement-result@(Model.RequirementId)').fadeIn("slow").delay(1000).fadeOut("slow");
+                    //notify parent if it's a new requirement
+                    @if (Model.RequirementId == 0)
+                    {
+                        <text>$("#discountRequirementContainer").trigger('nopnewdiscountruleadded', [data.NewRequirementId]);</text>
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#savecustomerrolesrequirementAlert").click();
+                }
+            });
+        });
+    });
+</script>
